@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSE Curricular | Apna Library</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+    <style>
+        /* BASE THEME — white premium liquid glass */
+        :root {
+            --bg-1:#faf8f4; --bg-2:#f1ece1;
+            --ink:#14213d; --ink-soft:rgba(20,33,61,0.62); --ink-faint:rgba(20,33,61,0.38);
+            --gold:#c9a227; --gold-deep:#93710f; --gold-soft:rgba(201,162,39,0.12);
+            --glass:rgba(255,255,255,0.55); --glass-strong:rgba(255,255,255,0.78); --glass-border:rgba(255,255,255,0.9);
+            --line:rgba(20,33,61,0.1);
+            --shadow:0 20px 60px rgba(20,33,61,0.10);
+            --neon-gold: var(--gold-deep);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html,body{ height:100%; }
+        body { background:linear-gradient(180deg,var(--bg-1),var(--bg-2)); color: var(--ink); overflow-x: hidden; position:relative; }
+        .blob{ position:fixed; border-radius:50%; filter:blur(90px); z-index:0; pointer-events:none; }
+        .blob-gold{ width:420px; height:420px; background:rgba(212,175,55,0.30); top:-140px; right:-110px; }
+        .blob-navy{ width:460px; height:460px; background:rgba(20,33,61,0.10); bottom:-180px; left:-150px; }
+        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 5%; background: rgba(255,255,255,0.65); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--line); z-index: 1000; }
+        .logo { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 4vw, 1.5rem); color: var(--ink); font-weight: 800; }
+        .logo span { color: var(--gold-deep); font-family: 'Poppins', sans-serif; font-size: 0.58rem; display: block; letter-spacing: 3px; }
+        .menu-btn { font-size: 1.6rem; color: var(--gold-deep); cursor: pointer; background: none; border: none; transition: 0.3s; }
+        .sidebar { position: fixed; top: 0; right: -340px; width: 310px; height: 100vh; background: rgba(255,255,255,0.85); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-left: 1px solid var(--glass-border); transition: 0.4s ease; z-index: 2000; padding: 40px 20px; box-shadow: -20px 0 60px rgba(20,33,61,0.12); }
+        .sidebar.active { right: 0; }
+        .close-btn { font-size: 1.8rem; color: var(--ink); cursor: pointer; float: right; margin-bottom: 30px; }
+        .sidebar-links { display: flex; flex-direction: column; gap: 10px; clear: both; }
+        .sidebar-links a { color: var(--ink); text-decoration: none; font-size: 1rem; padding: 14px; border-radius:12px; display: flex; align-items: center; gap: 14px; transition: 0.25s; }
+        .sidebar-links a:hover { color: var(--gold-deep); background: var(--gold-soft); }
+        .page-content { position:relative; z-index:1; margin-top: 100px; padding: 20px; min-height: 70vh; }
+
+        /* SYLLABUS UI — white glass */
+        .syl-section{
+          --gold:#c9a227; --bg:#faf8f4; --card:rgba(255,255,255,0.7); --line:rgba(20,33,61,0.1);
+          max-width:680px; margin:20px auto; padding:0 5%; color:var(--ink); font-family:'Poppins',sans-serif;
+        }
+        .syl-header{text-align:center; margin-bottom:22px;}
+        .syl-eyebrow{font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-deep); font-weight:500;}
+        .syl-title{font-family:'Fraunces',serif; font-weight:600; font-size:2.2rem; margin:8px 0 6px; color:var(--ink);}
+        .syl-sub{font-size:13.5px; color:var(--ink-soft); margin:0; font-weight:300;}
+        .syl-card{ display:flex; align-items:center; gap:16px; padding:20px 18px; border-radius:18px; background:var(--glass-strong); backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%); border:1px solid var(--glass-border); box-shadow:var(--shadow); cursor:pointer; transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+        .syl-card:hover, .syl-card:active{border-color:var(--gold); transform:translateY(-2px);}
+        .syl-card-icon{font-size:22px; color:var(--gold-deep); width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%;}
+        .syl-card-text{flex:1; display:flex; flex-direction:column;}
+        .syl-card-text strong{font-size:15px; font-weight:500; color:var(--ink);}
+        .syl-card-text span{font-size:12.5px; color:var(--ink-faint); font-weight:300;}
+        .syl-card-arrow{font-size:14px; color:var(--gold-deep);}
+        .syl-overlay{ position:fixed; inset:0; background:rgba(20,33,61,0.35); backdrop-filter:blur(6px); display:flex; align-items:flex-end; justify-content:center; z-index:9999; opacity:0; visibility:hidden; transition:opacity .25s ease, visibility .25s ease; }
+        .syl-overlay.active{opacity:1; visibility:visible;}
+        .syl-modal{ width:100%; max-width:680px; max-height:82vh; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; background:rgba(255,255,255,0.9); backdrop-filter:blur(30px) saturate(180%); -webkit-backdrop-filter:blur(30px) saturate(180%); border:1px solid var(--glass-border); border-top:2px solid var(--gold); border-radius:24px 24px 0 0; padding:24px 18px 34px; position:relative; box-shadow:0 -20px 60px rgba(20,33,61,0.18); transform:translateY(24px); transition:transform .3s cubic-bezier(.2,.8,.2,1); }
+        .syl-overlay.active .syl-modal{transform:translateY(0);}
+        .syl-close{ position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%; border:1px solid var(--line); background:rgba(255,255,255,0.7); color:var(--gold-deep); font-size:14px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+        .syl-step h3{font-family:'Playfair Display',serif; font-size:1.3rem; margin:6px 0 18px; font-weight:600; color:var(--ink);}
+        .syl-class-choice{display:flex; gap:12px;}
+        .syl-class-btn{ flex:1; padding:22px 10px; border-radius:16px; border:1px solid var(--line); background:rgba(255,255,255,0.6); display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; font-weight:500; color:var(--ink); transition:border-color .25s ease, box-shadow .25s ease; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+        .syl-class-btn:hover, .syl-class-btn:active{border-color:var(--gold); box-shadow:0 8px 20px rgba(201,162,39,0.18);}
+        .syl-class-num{font-family:'Playfair Display',serif; font-size:22px; color:var(--gold-deep); font-weight:600;}
+        .syl-back{background:none; border:none; color:var(--gold-deep); font-weight:500; font-size:13.5px; margin-bottom:14px; cursor:pointer; padding:0; display:flex; align-items:center; gap:8px;}
+        .syl-year-block{margin-bottom:10px; border-radius:16px; overflow:hidden; border:1px solid var(--line); background:rgba(255,255,255,0.55);}
+        .syl-year-head{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; cursor:pointer; font-weight:500; font-size:14.5px; color:var(--ink); touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+        .syl-year-head .chev{transition:transform .25s ease; color:var(--gold-deep); font-size:12px;}
+        .syl-year-block.open .chev{transform:rotate(90deg);}
+        .syl-subjects{max-height:0; overflow:hidden; transition:max-height .3s cubic-bezier(.2,.8,.2,1);}
+        .syl-subjects-inner{display:flex; flex-direction:column; gap:6px; padding:2px 16px 16px;}
+        .syl-subj-btn{ display:flex; justify-content:space-between; align-items:center; font-size:13.5px; font-weight:400; padding:10px 14px; border-radius:12px; text-decoration:none; background:rgba(201,162,39,0.09); color:var(--ink); border:1px solid transparent; transition:background .2s ease, border-color .2s ease; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+        .syl-subj-btn:hover, .syl-subj-btn:active{background:rgba(201,162,39,0.18); border-color:var(--line);}
+        .syl-subj-btn .view-tag{color:var(--gold-deep); font-size:12px; font-weight:600; letter-spacing:.5px; display:flex; align-items:center; gap:5px; flex-shrink:0;}
+        .syl-subj-btn .subj-label{margin-right:10px;}
+        .syl-subj-btn.na{opacity:.35; pointer-events:none;}
+    </style>
+</head>
+<body>
+    <div class="blob blob-gold"></div>
+    <div class="blob blob-navy"></div>
+    <nav>
+        <div class="logo">APNA <span>LIBRARY</span></div>
+        <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    </nav>
+    <div class="sidebar" id="sidebar">
+        <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+        <div class="sidebar-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="papers.html"><i class="fa-solid fa-file-lines"></i> CBSE Papers</a>
+            <a href="curricular.html" style="color: var(--gold-deep); background: var(--gold-soft);"><i class="fa-solid fa-book-open-reader"></i> CBSE Curricular</a>
+            <a href="ebook.html"><i class="fa-solid fa-book"></i> Apna Library</a>
+            <a href="updates.html"><i class="fas fa-bell"></i> New Updates</a>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <!-- CLAUDE'S HTML EXACTLY -->
+        <section id="syl-section" class="syl-section">
+          <div class="syl-header">
+            <span class="syl-eyebrow">CBSE Official Resource</span>
+            <h2 class="syl-title">CBSE Curricular</h2>
+            <p class="syl-sub">Official CBSE Curriculum for Secondary and Senior Secondary, 2023-24 to 2026-27</p>
+          </div>
+          <div class="syl-card" id="sylOpenBtn">
+            <div class="syl-card-icon"><i class="fa-solid fa-book-open"></i></div>
+            <div class="syl-card-text">
+              <strong>View Curriculum Archive</strong>
+              <span>Select stage → year → subject</span>
+            </div>
+            <div class="syl-card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="syl-overlay" id="sylOverlay">
+            <div class="syl-modal">
+              <button class="syl-close" id="sylClose"><i class="fa-solid fa-xmark"></i></button>
+              <div class="syl-step" id="sylStepClass">
+                <h3>Select Stage</h3>
+                <div class="syl-class-choice">
+                  <button class="syl-class-btn" data-class="SEC">
+                    <span class="syl-class-num">IX-X</span>
+                    <span>Secondary</span>
+                  </button>
+                  <button class="syl-class-btn" data-class="SRSEC">
+                    <span class="syl-class-num">XI-XII</span>
+                    <span>Senior Secondary</span>
+                  </button>
+                </div>
+              </div>
+              <div class="syl-step" id="sylStepYears" style="display:none;">
+                <button class="syl-back" id="sylBack"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <h3 id="sylYearTitle">Select Year</h3>
+                <div class="syl-years" id="sylYearsList"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+        
+        // CLAUDE'S ORIGINAL JS SCRIPT
+        (function(){
+          const SYL_DATA = {
+            SEC: { 
+              "2026-27": [ ["Mathematics (Class IX)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Maths_SecP1IX_2026-27.pdf"], ["Mathematics (Class X)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Maths_SecP1X_2026-27.pdf"], ["English (Class IX)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/English_LL_SecP1IX_2026-27.pdf"], ["English (Class X)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/English_LL_SecP1_2026-27.pdf"], ["Hindi (Class IX)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Hindi_SecP1IX_2026-27.pdf"], ["Hindi Course-A (Class X)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Hindi_A_SecP1_2026-27.pdf"], ["Hindi Course-B (Class X)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Hindi_B_SecP1_2026-27.pdf"], ["Science (Class IX)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/ScienceSt_SecP1_2026-27.pdf"], ["Science (Class X)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Science_SecP1_2026-27.pdf"], ["Social Science (Class IX)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/SocialScience_SecP1IX_2026-27.pdf"], ["Social Science (Class X)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/SocialScience_SecP1X_2026-27.pdf"], ["Computer Applications (Class IX)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Computer_Applications_SecP1IX_2026-27.pdf"], ["Computer Applications (Class X)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Computer_Applications_SecP1X_2026-27.pdf"], ["Full Curriculum (Part-1)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart1/Curriculum_SecP1_2026-27.pdf"] ],
+              "2025-26": [ ["Mathematics","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/Maths_Sec_2023-24.pdf"], ["English","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/English_LL_2023-24.pdf"], ["Science","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/Science_Sec_2023-24.pdf"], ["Hindi Course-A","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/Hindi_A_Sec_2023-24.pdf"], ["Hindi Course-B","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/Hindi_B_Sec_2023-24.pdf"], ["Social Science","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/Social_Science_Sec_2023-24.pdf"], ["Computer Applications","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/Computer_Applications_Sec_2023-24.pdf"], ["Full Curriculum","https://cbseacademic.nic.in/web_material/CurriculumMain24/Sec/Curriculum_Sec_2023-24.pdf"] ]
+            },
+            SRSEC: { 
+              "2026-27": [ ["Mathematics","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/Maths_SecP2_2026-27.pdf"], ["English Core","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/English_core_SecP2_2026-27.pdf"], ["Physics","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/Physics_SecP2_2026-27.pdf"], ["Chemistry","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/Chemistry_SecP2_2026-27.pdf"], ["Biology","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/Biology_SecP2_2026-27.pdf"], ["Hindi Core","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/Hindi_Core_SecP2_2026-27.pdf"], ["Computer Science","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/Computer_Science_SecP2_2026-27.pdf"], ["Physical Education","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/PhysicalEducation_SecP2_2026-27.pdf"], ["Full Curriculum (Part-2)","https://cbseacademic.nic.in/web_material/CurriculumMain27/SecPart2/Curriculum_SecP2_2026-27.pdf"] ],
+              "2025-26": [ ["Mathematics","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/Maths_SrSec_2025-26.pdf"], ["English Core","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/English_core_SrSec_2025-26.pdf"], ["Physics","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/Physics_SrSec_2025-26.pdf"], ["Chemistry","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/Chemistry_SrSec_2025-26.pdf"], ["Biology","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/Biology_SrSec_2025-26.pdf"], ["Hindi Core","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/Hindi_Core_SrSec_2025-26.pdf"], ["Computer Science","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/Computer_Science_SrSec_2025-26.pdf"], ["Physical Education","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/PhysicalEducation_SrSec_2025-26.pdf"], ["Full Curriculum","https://cbseacademic.nic.in/web_material/CurriculumMain26/SrSec/Curriculum_SrSec_2025-26.pdf"] ],
+              "2024-25": [ ["Mathematics","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/Maths_SrSec_2024-25.pdf"], ["English Core","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/English_core_SrSec_2024-25.pdf"], ["Physics","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/Physics_SrSec_2024-25.pdf"], ["Chemistry","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/Chemistry_SrSec_2024-25.pdf"], ["Biology","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/Biology_SrSec_2024-25.pdf"], ["Hindi Core","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/Hindi_Core_SrSec_2024-25.pdf"], ["Computer Science","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/Computer_Science_SrSec_2024-25.pdf"], ["Physical Education","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/PhysicalEducation_SrSec_2024-25.pdf"], ["Full Curriculum","https://cbseacademic.nic.in/web_material/CurriculumMain25/SrSec/Curriculum_SrSec_2024-25.pdf"] ],
+              "2023-24": [ ["Mathematics","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/Maths_SrSec_2023-24.pdf"], ["English Core","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/English_core_SrSec_2023-24.pdf"], ["Physics","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/Physics_SrSec_2023-24.pdf"], ["Chemistry","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/Chemistry_SrSec_2023-24.pdf"], ["Biology","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/Biology_SrSec_2023-24.pdf"], ["Hindi Core","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/Hindi_Core_SrSec_2023-24.pdf"], ["Computer Science","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/Computer_Science_SrSec_2023-24.pdf"], ["Physical Education","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/PhysicalEducation_SrSec_2023-24.pdf"], ["Full Curriculum","https://cbseacademic.nic.in/web_material/CurriculumMain24/SrSec/Curriculum_SrSec_2023-24.pdf"] ]
+            }
+          };
+
+          const overlay = document.getElementById('sylOverlay');
+          const stepClass = document.getElementById('sylStepClass');
+          const stepYears = document.getElementById('sylStepYears');
+          const yearsList = document.getElementById('sylYearsList');
+          const yearTitle = document.getElementById('sylYearTitle');
+
+          const STAGE_LABEL = { SEC: "Secondary (IX-X)", SRSEC: "Senior Secondary (XI-XII)" };
+
+          document.getElementById('sylOpenBtn').addEventListener('click', function(){
+            overlay.classList.add('active');
+            stepClass.style.display = 'block';
+            stepYears.style.display = 'none';
+          });
+          document.getElementById('sylClose').addEventListener('click', function(){
+            overlay.classList.remove('active');
+          });
+          overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.classList.remove('active'); });
+
+          document.getElementById('sylBack').addEventListener('click', function(){
+            stepYears.style.display = 'none';
+            stepClass.style.display = 'block';
+          });
+
+          document.querySelectorAll('.syl-class-btn').forEach(function(btn){
+            btn.addEventListener('click', function(){
+              const stage = btn.getAttribute('data-class');
+              renderYears(stage);
+              stepClass.style.display = 'none';
+              stepYears.style.display = 'block';
+              yearTitle.textContent = STAGE_LABEL[stage] + ' — Select Year';
+            });
+          });
+
+          function renderYears(stage){
+            const years = Object.keys(SYL_DATA[stage]);
+            yearsList.innerHTML = '';
+            years.forEach(function(yr){
+              const block = document.createElement('div');
+              block.className = 'syl-year-block';
+              const head = document.createElement('div');
+              head.className = 'syl-year-head';
+              head.innerHTML = '<span>' + yr + '</span><span class="chev">›</span>';
+              const subjWrap = document.createElement('div');
+              subjWrap.className = 'syl-subjects';
+              const subjInner = document.createElement('div');
+              subjInner.className = 'syl-subjects-inner';
+
+              SYL_DATA[stage][yr].forEach(function(item){
+                const label = item[0], url = item[1], notAvailable = item[2];
+                const a = document.createElement(notAvailable ? 'span' : 'a');
+                a.className = 'syl-subj-btn' + (notAvailable ? ' na' : '');
+                a.innerHTML = '<span class="subj-label">' + label + '</span><span class="view-tag"><i class="fa-solid fa-eye"></i> View</span>';
+                if(!notAvailable){ a.href = url; } 
+                subjInner.appendChild(a);
+              });
+
+              subjWrap.appendChild(subjInner);
+              head.addEventListener('click', function(){
+               const isOpen = block.classList.contains('open');
+                yearsList.querySelectorAll('.syl-year-block.open').forEach(function(openBlock){
+                  if(openBlock !== block){
+                    openBlock.classList.remove('open');
+                    openBlock.querySelector('.syl-subjects').style.maxHeight = null;
+                  }
+                });
+                if(isOpen){
+                  block.classList.remove('open');
+                  subjWrap.style.maxHeight = null;
+                } else {
+                  block.classList.add('open');
+                  subjWrap.style.maxHeight = subjWrap.scrollHeight + 'px';
+                }
+              });
+              block.appendChild(head);
+              block.appendChild(subjWrap);
+              yearsList.appendChild(block);
+            });
+          }
+        })();
+    </script>
+</body>
+</html>
+    
