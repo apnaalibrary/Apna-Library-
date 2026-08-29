@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apna Library | Study Space & Digital Learning</title>
+<meta name="description" content="Apna Library — a focused study space with reading halls, study cabins and a quiet environment for learning.">
+<meta name="keywords" content="Apna Library, study library, reading hall, study cabins, Uttar Pradesh">
+<meta name="author" content="Apna Library">
+<meta name="robots" content="index, follow">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+        /* ================= WEBSITE BASE THEME — white premium liquid glass ================= */
+        :root {
+            --bg-1:#faf8f4; --bg-2:#f1ece1;
+            --ink:#14213d; --ink-soft:rgba(20,33,61,0.62); --ink-faint:rgba(20,33,61,0.38);
+            --gold:#c9a227; --gold-deep:#93710f; --gold-soft:rgba(201,162,39,0.12);
+            --glass:rgba(255,255,255,0.55); --glass-strong:rgba(255,255,255,0.78); --glass-border:rgba(255,255,255,0.9);
+            --line:rgba(20,33,61,0.1);
+            --shadow:0 20px 60px rgba(20,33,61,0.10);
+            --neon-gold: var(--gold-deep);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html,body{ height:100%; }
+        body { background:linear-gradient(180deg,var(--bg-1),var(--bg-2)); color: var(--ink); overflow-x: hidden; position:relative; }
+        .blob{ position:fixed; border-radius:50%; filter:blur(90px); z-index:0; pointer-events:none; }
+        .blob-gold{ width:420px; height:420px; background:rgba(212,175,55,0.30); top:-140px; right:-110px; }
+        .blob-navy{ width:460px; height:460px; background:rgba(20,33,61,0.10); bottom:-180px; left:-150px; }
+
+        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 5%; background: rgba(255,255,255,0.65); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--line); z-index: 1000; }
+        .logo { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 4vw, 1.5rem); color: var(--ink); font-weight: 800; }
+        .logo span { color: var(--gold-deep); font-family: 'Poppins', sans-serif; font-size: 0.58rem; display: block; letter-spacing: 3px; }
+        .menu-btn { font-size: 1.6rem; color: var(--gold-deep); cursor: pointer; background: none; border: none; transition: 0.3s; }
+
+        .sidebar { position: fixed; top: 0; right: -340px; width: 310px; height: 100vh; background: rgba(255,255,255,0.85); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-left: 1px solid var(--glass-border); transition: 0.4s ease; z-index: 2000; padding: 40px 20px; box-shadow: -20px 0 60px rgba(20,33,61,0.12); }
+        .sidebar.active { right: 0; }
+        .close-btn { font-size: 1.8rem; color: var(--ink); cursor: pointer; float: right; margin-bottom: 30px; }
+        .sidebar-links { display: flex; flex-direction: column; gap: 10px; clear: both; }
+        .sidebar-links a { color: var(--ink); text-decoration: none; font-size: 1rem; padding: 14px; border-radius:12px; display: flex; align-items: center; gap: 14px; transition: 0.25s; }
+        .sidebar-links a:hover { color: var(--gold-deep); background: var(--gold-soft); }
+
+        .page-content { position:relative; z-index:1; margin-top: 100px; padding-bottom: 50px; }
+
+        </style>
+
+<style>
+/* ================= APNA LIBRARY CONTENT ================= */
+.page-content { position:relative; z-index:1; margin-top:95px; padding-bottom:50px; }
+
+.library-hero {
+    max-width: 900px;
+    margin: 25px auto 45px;
+    padding: 0 5%;
+    text-align:center;
+}
+.library-hero-card {
+    position:relative;
+    min-height:420px;
+    overflow:hidden;
+    border-radius:28px;
+    border:1px solid var(--glass-border);
+    background:var(--glass-strong);
+    box-shadow:var(--shadow);
+}
+.library-slider { position:absolute; inset:0; }
+.library-slide {
+    position:absolute; inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:0;
+    transition:opacity 1.3s ease-in-out;
+}
+.library-slide.active { opacity:1; }
+.library-hero-card::after {
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(to bottom, rgba(250,248,244,.12), rgba(20,33,61,.82));
+}
+.library-hero-content {
+    position:absolute; z-index:2; inset:auto 0 0;
+    padding:70px 25px 32px;
+    color:white;
+}
+.library-hero-content .eyebrow {
+    font-size:12px; letter-spacing:3px; text-transform:uppercase;
+    color:#f0d67a; font-weight:500;
+}
+.library-hero-content h1 {
+    font-family:'Fraunces','Playfair Display',serif;
+    font-size:clamp(2.3rem,6vw,4rem);
+    margin:8px 0;
+}
+.library-hero-content h1 span { color:#f0d67a; }
+.library-hero-content p { color:rgba(255,255,255,.86); font-size:14px; }
+
+.section-wrap { max-width:900px; margin:0 auto; padding:20px 5% 55px; }
+.section-heading { text-align:center; margin-bottom:25px; }
+.section-heading .eyebrow {
+    font-size:12px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold-deep); font-weight:500;
+}
+.section-heading h2 {
+    font-family:'Fraunces','Playfair Display',serif;
+    font-weight:600; font-size:2.2rem; color:var(--ink);
+    margin:7px 0;
+}
+.section-heading p { color:var(--ink-soft); font-size:13.5px; }
+
+.library-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+.library-card {
+    overflow:hidden;
+    border-radius:20px;
+    background:var(--glass-strong);
+    border:1px solid var(--glass-border);
+    box-shadow:var(--shadow);
+    transition:.25s ease;
+}
+.library-card:hover { transform:translateY(-4px); border-color:var(--gold); }
+.library-card img {
+    width:100%; height:220px; object-fit:cover; display:block;
+}
+.library-card-info { padding:16px; }
+.library-card-info h3 {
+    font-family:'Playfair Display',serif;
+    font-size:1.15rem; color:var(--ink); margin-bottom:4px;
+}
+.library-card-info p { color:var(--ink-soft); font-size:12.5px; }
+
+.director-card {
+    display:flex;
+    align-items:center;
+    gap:42px;
+    padding:38px;
+    border-radius:24px;
+    background:var(--glass-strong);
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid var(--glass-border);
+    box-shadow:var(--shadow);
+}
+.director-photo {
+    flex:0 0 260px;
+    width:260px; height:260px;
+    border-radius:50%;
+    padding:6px;
+    border:3px solid var(--gold);
+    background:rgba(255,255,255,.55);
+    box-shadow:0 12px 35px rgba(20,33,61,.14);
+    overflow:hidden;
+}
+.director-photo img {
+    width:100%; height:100%;
+    object-fit:cover; object-position:center top;
+    border-radius:50%;
+    display:block;
+}
+.director-copy { flex:1; }
+.director-copy .quote {
+    color:var(--gold-deep);
+    font-size:2rem;
+    margin-bottom:8px;
+}
+.director-copy h2 {
+    font-family:'Fraunces','Playfair Display',serif;
+    color:var(--ink); font-size:2rem; margin-bottom:5px;
+}
+.director-copy h4 {
+    color:var(--gold-deep);
+    font-weight:500;
+    letter-spacing:1px;
+    margin-bottom:16px;
+}
+.director-copy p {
+    color:var(--ink-soft);
+    line-height:1.85;
+    font-size:14px;
+    font-style:italic;
+}
+
+.location-card {
+    display:grid;
+    grid-template-columns:1fr 1.25fr;
+    gap:22px;
+    align-items:stretch;
+}
+.location-info, .map-box {
+    border-radius:20px;
+    background:var(--glass-strong);
+    border:1px solid var(--glass-border);
+    box-shadow:var(--shadow);
+}
+.location-info { padding:28px; }
+.location-info h3 {
+    font-family:'Playfair Display',serif;
+    color:var(--gold-deep); font-size:1.35rem; margin-bottom:15px;
+}
+.location-info p {
+    color:var(--ink-soft); line-height:1.8;
+    font-size:13.5px; margin-bottom:10px;
+}
+.location-info p i { color:var(--gold-deep); width:20px; }
+.map-box { overflow:hidden; min-height:300px; }
+.map-box iframe {
+    width:100%; height:100%; min-height:300px;
+    border:0; filter:grayscale(.15) contrast(1.02);
+}
+.map-link {
+    display:inline-block; margin-top:18px;
+    color:var(--gold-deep); text-decoration:none; font-size:13px; font-weight:500;
+}
+.map-link:hover { text-decoration:underline; }
+
+.library-cta { text-align:center; margin-top:28px; }
+.library-cta a {
+    display:inline-flex; align-items:center; gap:9px;
+    padding:13px 27px; border-radius:50px;
+    border:1px solid var(--gold);
+    color:var(--gold-deep); text-decoration:none;
+    background:rgba(255,255,255,.45);
+    transition:.25s ease;
+}
+.library-cta a:hover { background:var(--gold-soft); transform:translateY(-2px); }
+
+@media(max-width:800px) {
+    .library-grid { grid-template-columns:1fr; }
+    .library-card img { height:230px; }
+    .director-card { flex-direction:column; text-align:center; padding:28px 20px; gap:25px; }
+    .director-photo { width:220px; height:220px; flex-basis:220px; }
+    .location-card { grid-template-columns:1fr; }
+    .library-hero-card { min-height:390px; }
+}
+</style>
+</head>
+
+<body>
+<div class="blob blob-gold"></div>
+<div class="blob blob-navy"></div>
+
+<nav>
+    <div class="logo">APNA <span>LIBRARY</span></div>
+    <div style="display:flex;align-items:center;gap:18px;">
+        <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<div class="sidebar" id="sidebar">
+    <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+    <div class="sidebar-links">
+        <a href="#home"><i class="fas fa-home"></i> Home</a>
+        <a href="#library"><i class="fas fa-book-open"></i> Apna Library</a>
+        <a href="#director"><i class="fas fa-user-tie"></i> Director</a>
+        <a href="#location"><i class="fas fa-location-dot"></i> Location</a>
+        <a href="papers.html"><i class="fa-solid fa-file-lines"></i> Previous Year Papers</a>
+    </div>
+</div>
+
+<main class="page-content">
+
+<section class="library-hero" id="home">
+    <div class="library-hero-card">
+        <div class="library-slider" id="librarySlider">
+            <div class="library-slide active" style="background-image:url('https://i.ibb.co/0Rr6dV4P/Temp-Drag-File-20260829-180716.jpg')"></div>
+            <div class="library-slide" style="background-image:url('https://i.ibb.co/WWwSZt0y/Temp-Drag-File-20260829-180640.jpg')"></div>
+            <div class="library-slide" style="background-image:url('https://i.ibb.co/Dg4FpHzx/Temp-Drag-File-20260829-180626.jpg')"></div>
+        </div>
+        <div class="library-hero-content">
+            <div class="eyebrow">A focused space for learning</div>
+            <h1>Welcome to <span>Apna Library</span></h1>
+            <p>Quiet study. Better focus. A better plan for tomorrow.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section-wrap" id="library">
+    <div class="section-heading">
+        <div class="eyebrow">Explore the space</div>
+        <h2>Apna Library</h2>
+        <p>Comfortable spaces designed for focused study and reading.</p>
+    </div>
+
+    <div class="library-grid">
+        <article class="library-card">
+            <img src="https://i.ibb.co/0Rr6dV4P/Temp-Drag-File-20260829-180716.jpg" alt="Study cabins at Apna Library">
+            <div class="library-card-info">
+                <h3>Study Cabins</h3>
+                <p>Private, distraction-free seats.</p>
+            </div>
+        </article>
+        <article class="library-card">
+            <img src="https://i.ibb.co/WWwSZt0y/Temp-Drag-File-20260829-180640.jpg" alt="Seating area at Apna Library">
+            <div class="library-card-info">
+                <h3>Reading Hall</h3>
+                <p>Spacious, comfortable seating.</p>
+            </div>
+        </article>
+        <article class="library-card">
+            <img src="https://i.ibb.co/Dg4FpHzx/Temp-Drag-File-20260829-180626.jpg" alt="Study hall at Apna Library">
+            <div class="library-card-info">
+                <h3>Study Hall</h3>
+                <p>Room to focus, undisturbed.</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="section-wrap" id="director">
+    <div class="section-heading">
+        <div class="eyebrow">Leadership</div>
+        <h2>Director's Message</h2>
+    </div>
+
+    <!-- Large director image version retained; the small quote-card version is removed. -->
+    <div class="director-card">
+        <div class="director-photo">
+            <img src="https://i.ibb.co/svDmm5BC/IMG-20260701-201709.jpg"
+                 alt="Shashwat Pandey, Director"
+                 onerror="this.src='https://placehold.co/260x260/faf8f4/93710f?text=Director'">
+        </div>
+        <div class="director-copy">
+            <div class="quote"><i class="fas fa-quote-left"></i></div>
+            <h2>Shashwat Pandey</h2>
+            <h4>DIRECTOR</h4>
+            <p>“A good library doesn't just hold books — it holds the discipline our students need to grow. Apna Library was built so every child has a quiet corner to sit, focus, and dream bigger.”</p>
+        </div>
+    </div>
+</section>
+
+<section class="section-wrap" id="location">
+    <div class="section-heading">
+        <div class="eyebrow">Visit us</div>
+        <h2>Find Apna Library</h2>
+        <p>Open the exact location directly in Google Maps.</p>
+    </div>
+
+    <div class="location-card">
+        <div class="location-info">
+            <h3>Apna Library</h3>
+            <p><i class="fas fa-location-dot"></i> 9PHR+23, Karaundi, Uttar Pradesh 274182</p>
+            <p><i class="fas fa-clock"></i> Open 24 hours</p>
+            <p><i class="fas fa-star"></i> 5.0 (4 reviews)</p>
+            <a class="map-link" href="https://maps.app.goo.gl/jpeK4xdwyugy34JE8?g_st=ac" target="_blank">
+                Open exact location in Google Maps →
+            </a>
+        </div>
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps?q=9PHR%2B23%2C%20Karaundi%2C%20Uttar%20Pradesh%20274182&output=embed"
+                    loading="lazy" allowfullscreen title="Apna Library Location Map"></iframe>
+        </div>
+    </div>
+
+    <div class="library-cta">
+        <a href="papers.html"><i class="fas fa-file-lines"></i> Explore Previous Year Papers</a>
+    </div>
+</section>
+
+</main>
+
+<footer style="text-align:center;padding:35px 20px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:12px;">
+    © Apna Library ®
+</footer>
+
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('active');
+}
+
+(function () {
+    const slides = document.querySelectorAll('#librarySlider .library-slide');
+    let current = 0;
+    if (slides.length > 1) {
+        setInterval(function () {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 4000);
+    }
+})();
+</script>
+</body>
+</html>
